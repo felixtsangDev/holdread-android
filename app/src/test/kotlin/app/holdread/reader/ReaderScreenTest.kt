@@ -71,6 +71,13 @@ class ReaderScreenTest {
     private val track get() = rule.onNodeWithTag(ReaderTags.TRACK)
     private val y get() = with(rule.density) { 33.dp.toPx() }
 
+    /** After a chapter change, let the new text be measured. */
+    private fun awaitLayout() {
+        var waited = 0
+        while (!state.layoutReady && waited < 3000) { rule.mainClock.advanceTimeBy(16); waited += 16 }
+        assertTrue("text of the new chapter was never measured", state.layoutReady)
+    }
+
     private fun frames(ms: Long) {
         var left = ms
         while (left > 0) {
@@ -184,7 +191,8 @@ class ReaderScreenTest {
     fun wordCursorFollowsTheWordUnderTheFinger() {
         launch(EngineSettings(wpm = 600, cursor = CursorMode.WORD))
         val line = state.currentLine
-        down(state.layout.left(line.first) + 1f)
+        down(state.layout.left(line.first))
+        moveTo(state.layout.left(line.first) + 1f)
         frames(300)
         assertEquals(
             "finger x=${state.fingerX} word=${state.engine.fingerIndex(state.fingerX)} status=${state.status} " +
@@ -230,6 +238,7 @@ class ReaderScreenTest {
         up()
         state.goToChapter(1)
         frames(500)
+        awaitLayout()
         down(-5f)
         slideTo(state.layout.right(state.currentLine.last) + 2f, 1500)
         frames(400)
@@ -246,9 +255,11 @@ class ReaderScreenTest {
         launch(EngineSettings(wpm = 600), dark = true, b = SampleBook.book)
         state.goToChapter(1)
         frames(500)
+        awaitLayout()
         down(-5f)
         slideTo(past(state.currentLine.first + 2), 1500)
         frames(300)
+        assertEquals(2, state.index)
         shoot("reader-en-dark")
         up()
     }
