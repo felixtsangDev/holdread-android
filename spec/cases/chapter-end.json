@@ -1,0 +1,12 @@
+{
+  "name": "the last word ends the chapter and the finger must lift",
+  "about": "The last word of a paragraph dwells an extra 0.4 x base (70 + 40 = 110 ms): read at 80, then at 192. After that the chapter has ended and the finger has to lift.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 16, "move": { "word": 1 } },
+    { "at": 176, "expect": { "index": 1 } },
+    { "at": 192, "expect": { "index": 2, "needLift": true, "chapterEnded": true, "units": 2 } }
+  ]
+}

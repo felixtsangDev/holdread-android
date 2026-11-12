@@ -1,0 +1,12 @@
+{
+  "name": "reading time stops 2.5 s after the cursor last moved",
+  "about": "A finger resting on the track counts as reading only while the cursor moved within the last 2500 ms.",
+  "settings": { "wpm": 350, "cursor": "position" },
+  "blocks": [["aa bb cc"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 4000, "expect": { "index": 0, "readingMs": 2496 } },
+    { "at": 4016, "up": true },
+    { "at": 4032, "expect": { "status": "idle" } }
+  ]
+}

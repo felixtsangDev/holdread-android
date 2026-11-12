@@ -1,0 +1,16 @@
+{
+  "name": "speed cap holds the cursor back",
+  "about": "wpm 600 -> base 100 ms; two-letter words dwell 0.7 x base = 70 ms. The finger jumps to word 2 at once, the cursor follows one word per 70 ms (on 16 ms frames: 80, 160, 240) and stops at the first word the finger hasn't passed.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb cc dd ee ff gg hh"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 16, "move": { "word": 2 } },
+    { "at": 64, "expect": { "index": 0, "status": "fast" } },
+    { "at": 80, "expect": { "index": 1 } },
+    { "at": 144, "expect": { "index": 1 } },
+    { "at": 160, "expect": { "index": 2 } },
+    { "at": 240, "expect": { "index": 3 } },
+    { "at": 400, "expect": { "index": 3, "status": "go", "units": 3, "skips": 0 } }
+  ]
+}

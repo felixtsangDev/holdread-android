@@ -1,0 +1,12 @@
+{
+  "name": "a short look ahead is not a skip",
+  "about": "Ahead for under 600 ms, then back: no skip.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb cc dd ee ff gg hh"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 16, "move": { "word": 4 } },
+    { "at": 400, "move": { "word": 0 } },
+    { "at": 416, "expect": { "skips": 0, "index": 1 } }
+  ]
+}

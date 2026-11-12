@@ -1,0 +1,13 @@
+{
+  "name": "sliding left goes back within the line and un-counts words",
+  "about": "Slide right at an easy pace to read 6 words, then slide left onto word 1: the cursor returns to word 2 (the first word the finger hasn't passed) and the count drops to 2.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb cc dd ee ff gg hh"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 0, "slide": { "to": 175, "until": 1000 } },
+    { "at": 1200, "expect": { "index": 6, "units": 6 } },
+    { "at": 1216, "move": 45 },
+    { "at": 1232, "expect": { "index": 2, "units": 2 } }
+  ]
+}

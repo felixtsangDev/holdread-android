@@ -1,0 +1,13 @@
+{
+  "name": "running more than 3 words ahead stops counting and logs a skip",
+  "about": "The finger lands on word 4 (index + 4 > index + 3): status ahead, nothing advances. Coming back after more than 600 ms counts one skip.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb cc dd ee ff gg hh"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 16, "move": { "word": 4 } },
+    { "at": 400, "expect": { "index": 0, "status": "ahead", "skips": 0 } },
+    { "at": 800, "move": { "word": 0 } },
+    { "at": 800, "expect": { "index": 1, "skips": 1 } }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "a new line needs the finger back at the left, and going back never leaves the line",
+  "about": "Reading the last word of line 1 moves the cursor to line 2 while the finger is still on the right: status rewind until the finger returns to the left edge. Sliding left on line 2 can only go back to the start of line 2.",
+  "settings": { "wpm": 600, "cursor": "position" },
+  "blocks": [["aa bb cc", "dd ee ff"]],
+  "script": [
+    { "at": 0, "down": 0 },
+    { "at": 0, "slide": { "to": 75, "until": 600 } },
+    { "at": 544, "expect": { "index": 2 } },
+    { "at": 560, "expect": { "index": 3, "rewinding": true } },
+    { "at": 600, "expect": { "index": 3, "status": "rewind", "rewinding": true } },
+    { "at": 704, "move": 0 },
+    { "at": 704, "expect": { "rewinding": false } },
+    { "at": 720, "expect": { "index": 3, "status": "go" } },
+    { "at": 720, "slide": { "to": 45, "until": 1200 } },
+    { "at": 1296, "expect": { "index": 5, "units": 5 } },
+    { "at": 1312, "move": 0 },
+    { "at": 1328, "expect": { "index": 3, "units": 3 } }
+  ]
+}

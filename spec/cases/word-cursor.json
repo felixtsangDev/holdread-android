@@ -1,0 +1,14 @@
+{
+  "name": "word cursor follows the word under the finger",
+  "about": "In word mode the finger must be on (or within 40 px of) a word. Off the words, nothing happens and the status is idle.",
+  "settings": { "wpm": 600, "cursor": "word" },
+  "blocks": [["aa bb cc dd"]],
+  "script": [
+    { "at": 0, "down": 5 },
+    { "at": 64, "expect": { "index": 0, "status": "go" } },
+    { "at": 80, "expect": { "index": 1 } },
+    { "at": 192, "expect": { "index": 1, "status": "go" } },
+    { "at": 208, "move": 500 },
+    { "at": 300, "expect": { "index": 1, "status": "idle" } }
+  ]
+}
