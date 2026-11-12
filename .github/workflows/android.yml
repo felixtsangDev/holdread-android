@@ -49,6 +49,15 @@ jobs:
           name: screenshots
           path: app/build/outputs/screenshots/
 
+      # Screenshots go into the log as base64 too, so they can be read without downloading artifacts.
+      - name: Print screenshots
+        if: always()
+        run: |
+          for f in app/build/outputs/screenshots/*.jpg; do
+            [ -f "$f" ] || continue
+            echo "SCREENSHOT $(basename "$f") $(base64 -w0 "$f")"
+          done
+
       - name: Upload test reports
         if: failure()
         uses: actions/upload-artifact@v4

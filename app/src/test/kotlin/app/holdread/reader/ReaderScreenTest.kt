@@ -2,11 +2,10 @@ package app.holdread.reader
 
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.test.captureToImage
-import androidx.compose.ui.test.junit4.createComposeRule
+import android.graphics.Canvas
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.unit.dp
 import app.holdread.engine.CursorMode
@@ -34,7 +33,7 @@ import java.io.File
 class ReaderScreenTest {
 
     @get:Rule
-    val rule = createComposeRule()
+    val rule = createAndroidComposeRule<ComponentActivity>()
 
     private val book = Book(
         "Test", "HoldRead",
@@ -241,10 +240,16 @@ class ReaderScreenTest {
         up()
     }
 
+    /**
+     * Draws the window straight into a bitmap. (captureToImage waits for idle, which never comes while
+     * a finger is on the track and the frame loop runs.) Saved as JPEG so CI can print it into the log.
+     */
     private fun shoot(name: String) {
-        rule.waitForIdle()
         val dir = File(System.getProperty("holdread.screenshots") ?: "build/outputs/screenshots").apply { mkdirs() }
-        val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
-        File(dir, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        val view = rule.activity.window.decorView
+        val bmp = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        rule.runOnUiThread { view.draw(Canvas(bmp)) }
+        val small = Bitmap.createScaledBitmap(bmp, view.width / 3, view.height / 3, true)
+        File(dir, "$name.jpg").outputStream().use { small.compress(Bitmap.CompressFormat.JPEG, 80, it) }
     }
 }
