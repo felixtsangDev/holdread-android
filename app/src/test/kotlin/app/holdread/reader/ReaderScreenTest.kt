@@ -259,7 +259,7 @@ class ReaderScreenTest {
         down(-5f)
         slideTo(past(state.currentLine.first + 2), 1500)
         frames(300)
-        assertEquals(2, state.index)
+        assertEquals("finger passed 3 words of the heading", 3, state.index)
         shoot("reader-en-dark")
         up()
     }
