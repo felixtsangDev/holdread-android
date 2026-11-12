@@ -186,7 +186,11 @@ class ReaderScreenTest {
         val line = state.currentLine
         down(state.layout.left(line.first) + 1f)
         frames(300)
-        assertEquals(line.first + 1, state.index)
+        assertEquals(
+            "finger x=${state.fingerX} word=${state.engine.fingerIndex(state.fingerX)} status=${state.status} " +
+                "first=[${state.layout.left(line.first)}, ${state.layout.right(line.first)}] touching=${state.engine.touching}",
+            line.first + 1, state.index,
+        )
         moveTo(state.layout.left(line.first + 1) + 1f)
         frames(300)
         assertEquals(line.first + 2, state.index)
@@ -212,16 +216,25 @@ class ReaderScreenTest {
     fun screenshots() {
         launch(EngineSettings(wpm = 600), b = SampleBook.book)
         down(-5f)
-        slideTo(past(state.currentLine.first + 3), 1500)
+        // read the heading line, come back to the left, then read into the first paragraph
+        slideTo(state.layout.right(state.currentLine.last) + 2f, 1200)
+        frames(400)
+        moveTo(-5f)
+        frames(100)
+        slideTo(past(state.currentLine.first + 4), 2500)
         frames(300)
         shoot("reader-zh-reading")
-        moveTo(past(state.currentLine.first + 3) + 400f)
-        frames(200)
+        moveTo(state.layout.right(state.currentLine.last) - 2f)
+        frames(300)
         shoot("reader-zh-ahead")
         up()
         state.goToChapter(1)
         frames(500)
         down(-5f)
+        slideTo(state.layout.right(state.currentLine.last) + 2f, 1500)
+        frames(400)
+        moveTo(-5f)
+        frames(100)
         slideTo(past(state.currentLine.first + 3), 1500)
         frames(300)
         shoot("reader-en-reading")

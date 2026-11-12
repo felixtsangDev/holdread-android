@@ -163,7 +163,7 @@ private fun Page(state: ReaderState, c: ReaderColors, modifier: Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = PagePadding)
-                        .padding(bottom = if (block.heading) 12.dp else 16.dp)
+                        .padding(bottom = if (block.heading) 8.dp else 20.dp)
                         .onGloballyPositioned { state.onBlockPositioned(bi, it.positionInParent().y) },
                     onTextLayout = { state.onBlockLayout(bi, it) },
                 )
