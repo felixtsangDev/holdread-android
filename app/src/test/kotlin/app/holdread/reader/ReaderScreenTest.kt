@@ -218,6 +218,13 @@ class ReaderScreenTest {
         up()
         frames(32)
         assertFalse(state.needLift)
+        awaitLayout()
+        // the next chapter reads normally
+        down(-5f)
+        slideTo(past(0), 400)
+        frames(300)
+        assertEquals(1, state.index)
+        up()
     }
 
     @Test
@@ -236,7 +243,7 @@ class ReaderScreenTest {
         frames(300)
         shoot("reader-zh-ahead")
         up()
-        state.goToChapter(1)
+        rule.runOnUiThread { state.goToChapter(1) }
         frames(500)
         awaitLayout()
         down(-5f)
@@ -253,7 +260,7 @@ class ReaderScreenTest {
     @Test
     fun screenshotDark() {
         launch(EngineSettings(wpm = 600), dark = true, b = SampleBook.book)
-        state.goToChapter(1)
+        rule.runOnUiThread { state.goToChapter(1) }
         frames(500)
         awaitLayout()
         down(-5f)
