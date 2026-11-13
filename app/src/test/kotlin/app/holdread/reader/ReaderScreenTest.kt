@@ -1,6 +1,7 @@
 package app.holdread.reader
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.geometry.Offset
 import android.graphics.Canvas
 import androidx.activity.ComponentActivity
@@ -243,7 +244,7 @@ class ReaderScreenTest {
         frames(300)
         shoot("reader-zh-ahead")
         up()
-        rule.runOnUiThread { state.goToChapter(1) }
+        rule.runOnUiThread { state.goToChapter(1); Snapshot.sendApplyNotifications() }
         frames(500)
         awaitLayout()
         down(-5f)
@@ -260,7 +261,7 @@ class ReaderScreenTest {
     @Test
     fun screenshotDark() {
         launch(EngineSettings(wpm = 600), dark = true, b = SampleBook.book)
-        rule.runOnUiThread { state.goToChapter(1) }
+        rule.runOnUiThread { state.goToChapter(1); Snapshot.sendApplyNotifications() }
         frames(500)
         awaitLayout()
         down(-5f)
