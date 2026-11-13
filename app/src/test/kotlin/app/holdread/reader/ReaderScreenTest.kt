@@ -75,7 +75,7 @@ class ReaderScreenTest {
     private fun awaitLayout() {
         var waited = 0
         while (!state.layoutReady && waited < 3000) { rule.mainClock.advanceTimeBy(16); waited += 16 }
-        assertTrue("text of the new chapter was never measured", state.layoutReady)
+        assertTrue("text of the new chapter was never measured: ${state.layoutDebug()}", state.layoutReady)
     }
 
     private fun frames(ms: Long) {

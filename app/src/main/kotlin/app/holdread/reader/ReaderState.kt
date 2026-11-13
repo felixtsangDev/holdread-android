@@ -98,6 +98,10 @@ class ReaderState(
     private var trackLayout: TrackLayout? = null
 
     val layoutReady: Boolean get() = trackLayout != null
+
+    /** For tests: which blocks have been measured. */
+    internal fun layoutDebug(): String =
+        "chapter=$chapterIndex blocks=${chapter.blocks.size} measured=${blockLayouts.map { it != null }}"
     val layout: TrackLayout get() = trackLayout ?: PendingLayout
 
     /** Words on the line being read. */
